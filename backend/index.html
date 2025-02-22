@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+</head>
+<body>
+  <h1>User Management</h1>
+
+  <!-- Form to add new user -->
+  <h2>Add New User</h2>
+  <form id="addUserForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button type="submit">Add User</button>
+  </form>
+
+  <h2>Users List</h2>
+  <button id="fetchUsers">Fetch Users</button>
+  <ul id="userList"></ul>
+
+  <h2>Delete User by ID</h2>
+  <input type="number" id="deleteId" placeholder="User ID">
+  <button id="deleteUser">Delete User</button>
+
+  <script>
+    // Handle adding a user
+    document.getElementById('addUserForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      fetch('http://localhost:3000/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+      }).then(response => response.json())
+        .then(data => alert('User added: ' + data));
+    });
+
+    // Fetch and display users
+    document.getElementById('fetchUsers').addEventListener('click', function() {
+      fetch('http://localhost:3000/users')
+        .then(response => response.json())
+        .then(users => {
+          const userList = document.getElementById('userList');
+          userList.innerHTML = '';
+          users.forEach(user => {
+            userList.innerHTML += `<li>${user.id}: ${user.name} (${user.email})</li>`;
+          });
+        });
+    });
+
+    // Handle deleting a user by ID
+    document.getElementById('deleteUser').addEventListener('click', function() {
+      const id = document.getElementById('deleteId').value;
+      fetch(`http://localhost:3000/delete/${id}`, {
+        method: 'DELETE'
+      }).then(response => response.text())
+        .then(data => alert('User deleted: ' + data));
+    });
+  </script>
+</body>
+</html>
