@@ -12,6 +12,9 @@
   "description": "",
   "dependencies": {
     "express": "^4.21.2",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "mysql": "^2.18.1"
   }
 }
