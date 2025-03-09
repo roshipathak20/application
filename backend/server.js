@@ -1,10 +1,14 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
+<<<<<<< HEAD
 const path = require('path');
+=======
+>>>>>>> 63322b030e17d29b588ac421120618eca2535492
 const cors = require('cors');
 const app = express();
 const db = new sqlite3.Database('./database.db');
 
+<<<<<<< HEAD
 // Middleware
 app.use(express.json());
 app.use(cors()); // Enable CORS for frontend communication
@@ -53,6 +57,15 @@ app.delete('/delete/user/:id', (req, res) => {
 });
 
 // Route to get all items
+=======
+app.use(express.json());
+app.use(cors());
+
+// Create table if not exists
+db.run("CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY, name TEXT)");
+
+// Get all items
+>>>>>>> 63322b030e17d29b588ac421120618eca2535492
 app.get('/items', (req, res) => {
   db.all("SELECT * FROM items", [], (err, rows) => {
     if (err) {
@@ -62,10 +75,17 @@ app.get('/items', (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // Route to add an item
 app.post('/add/item', (req, res) => {
   const { name } = req.body;
   db.run("INSERT INTO items (name) VALUES (?)", [name], function (err) {
+=======
+// Add an item
+app.post('/add', (req, res) => {
+  const { name } = req.body;
+  db.run("INSERT INTO items (name) VALUES (?)", [name], function(err) {
+>>>>>>> 63322b030e17d29b588ac421120618eca2535492
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -73,10 +93,17 @@ app.post('/add/item', (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // Route to delete an item
 app.delete('/delete/item/:id', (req, res) => {
   const { id } = req.params;
   db.run("DELETE FROM items WHERE id = ?", [id], function (err) {
+=======
+// Delete an item
+app.delete('/delete/:id', (req, res) => {
+  const { id } = req.params;
+  db.run("DELETE FROM items WHERE id = ?", [id], function(err) {
+>>>>>>> 63322b030e17d29b588ac421120618eca2535492
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -84,7 +111,10 @@ app.delete('/delete/item/:id', (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // Start the server
+=======
+>>>>>>> 63322b030e17d29b588ac421120618eca2535492
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
